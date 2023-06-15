@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import "./video.css";
+import VideoFooter from "./components/footer/video-footer";
 
 function Video() {
 
@@ -26,6 +27,7 @@ function Video() {
         ref={VideoRef}
         onClick={handleStart}
       ></video>
+      <VideoFooter />
     </div>
   );
 }
