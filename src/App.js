@@ -1,29 +1,42 @@
+import React, { useEffect, useState } from "react"
 import "./App.css";
 import Video from "./pages/video";
+import db from "./config/firebase"
+import { collection, getDocs } from 'firebase/firestore/lite';
 
 function App() {
+
+  const [videos, setVideos] = useState([])
+
+  async function getVideos() {
+    const videosCollection = collection(db, "videos")
+    const videosSnapshot = await getDocs(videosCollection)
+    const videosList = videosSnapshot.docs.map(doc => doc.data())
+    setVideos(videosList)
+  }
+
+  useEffect(() => {
+    getVideos();
+  }, [])
+
   return (
     <div className="App">
       <div className="app__videos">
-        <Video 
-          likes={100}
-          messages={200}
-          shares={300}
-          name="Rodrigo Serrasqueiro"
-          description="O gato goleiro"
-          music="Musica épica"
-          url="https://poqlymuephttfsljdabn.supabase.co/storage/v1/object/public/jornadadev/brecker2.mp4?t=2023-05-22T19%3A37%3A45.885Z"
-        />
 
-        <Video 
-          likes={345}
-          messages={345}
-          shares={654}
-          name="Graziela Serrasqueiro"
-          description="Olha esse gato!"
-          music="Musiquinha"
-          url="https://poqlymuephttfsljdabn.supabase.co/storage/v1/object/public/jornadadev/bird.mp4?t=2023-05-22T19%3A40%3A47.052Z"
-        />
+        { videos.map((videos, index) => {
+          return (
+            <Video 
+              likes={videos.likes}
+              messages={videos.messages}
+              shares={videos.shares}
+              name={videos.name}
+              description={videos.description}
+              music={videos.music}
+              url={videos.url}
+              key={index}
+            />
+          )
+        }) }
         
       </div>
     </div>
