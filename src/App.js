@@ -6,6 +6,12 @@ import { collection, getDocs } from 'firebase/firestore/lite';
 
 function App() {
 
+  let maxHeigth;
+
+  if (window.innerHeight <= 800) {
+    maxHeigth = window.innerHeight
+  }
+
   const [videos, setVideos] = useState([])
 
   async function getVideos() {
@@ -20,7 +26,7 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div className="App" style={{ maxHeight: maxHeigth + "px" }}>
       <div className="app__videos">
 
         { videos.map((videos, index) => {
